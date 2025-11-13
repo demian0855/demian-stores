@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demian Stores — Clothing & Apparel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    /* Base styles */
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Lato', sans-serif;background:#0a0a0a;color:#fff;line-height:1.6;}
+    a{text-decoration:none;color:inherit;}
+    h1,h2,h3{font-family:'Montserrat', sans-serif;color:#ff6600;}
+
+    /* Header */
+    header{background:#0a0a0a;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,0.1);}
+    .container{max-width:1200px;margin:auto;padding:0 20px;}
+    .nav{display:flex;justify-content:space-between;align-items:center;padding:15px 0;}
+    .brand{font-size:1.4rem;font-weight:600;color:#ff6600;}
+    nav a{margin-left:20px;font-weight:500;transition:0.3s;}
+    nav a:hover{color:#ff6600;}
+
+    /* Hero */
+    .hero{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:100px 20px;background:#111;background-image:linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1600180758895-982c2a7f0a49?auto=format&fit=crop&w=1400&q=80');background-size:cover;background-position:center;}
+    .hero h1{font-size:2.2rem;margin-bottom:15px;}
+    .hero p{font-size:1rem;color:#ccc;margin-bottom:25px;}
+    .btn{background:#ff6600;color:#0a0a0a;padding:10px 22px;border:none;border-radius:6px;font-weight:600;cursor:pointer;transition:0.3s, box-shadow 0.3s;}
+    .btn:hover{background:#e65c00;box-shadow:0 4px 15px rgba(255,102,0,0.4);}
+
+    html{scroll-behavior:smooth;}
+
+    /* Sections */
+    section{padding:80px 0;}
+    .section-title{font-size:1.8rem;margin-bottom:30px;text-align:center;color:#ff6600;}
+    .grid{display:grid;gap:25px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
+    .card{background:#111;border:1px solid rgba(255,102,0,0.3);border-radius:10px;overflow:hidden;transition:transform 0.3s, box-shadow 0.3s;}
+    .card:hover{transform:translateY(-5px);box-shadow:0 8px 20px rgba(255,102,0,0.3);}
+    .card img{width:100%;height:260px;object-fit:cover;transition:transform 0.3s;}
+    .card:hover img{transform:scale(1.05);}
+    .card-body{padding:15px;}
+    .card-body h3{margin-bottom:8px;color:#ff6600;}
+    .card-body p{color:#ccc;margin-bottom:12px;}
+
+    .about{text-align:center;color:#ccc;max-width:850px;margin:auto;}
+    form{max-width:500px;margin:auto;display:flex;flex-direction:column;gap:12px;}
+    input,textarea{padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.2);background:#111;color:#fff;resize:none;}
+    input::placeholder, textarea::placeholder{color:#888;}
+
+    footer{text-align:center;padding:25px 20px;border-top:1px solid rgba(255,255,255,0.1);color:#ccc;}
+    footer a:hover{color:#ff6600;text-decoration:underline;}
+
+    .cart{position:fixed;top:18px;right:18px;z-index:200;background:#ff6600;color:#0a0a0a;padding:8px 12px;border-radius:999px;font-weight:600;cursor:pointer;}
+    .cart-modal{display:none;position:fixed;top:70px;right:18px;width:340px;max-width:95%;background:#111;border:1px solid rgba(255,102,0,0.3);border-radius:10px;padding:15px;z-index:300;}
+    .cart-modal h3{margin-top:0;color:#ff6600;}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <div class="brand">Demian Stores</div>
+    <nav>
+      <a href="#hero">Home</a>
+      <a href="#products">Products</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="cart" onclick="toggleCart()">🛒 <span id="cartCount">0</span></div>
+<div class="cart-modal" id="cartModal">
+  <h3>Your Cart</h3>
+  <div id="cartItems">No items yet</div>
+  <div id="cartTotal" style="margin-top:10px;font-weight:600;"></div>
+  <div style="margin-top:10px"><button class="btn" onclick="checkout()">Checkout via Email</button></div>
+</div>
+
+<section id="hero" class="hero">
+  <h1>Quality Apparel, Stylish Designs</h1>
+  <p>Discover carefully curated clothing for men and women, crafted for elegance and comfort.</p>
+  <button class="btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+</section>
+
+<section id="products">
+  <h2 class="section-title">Featured Products</h2>
+  <div class="grid">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1600180758895-982c2a7f0a49?auto=format&fit=crop&w=800&q=80" alt="Classic Jacket">
+      <div class="card-body">
+        <h3>Classic Jacket</h3>
+        <p>₦18,500</p>
+        <button class="btn" onclick="addToCart('Classic Jacket',18500)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1602810314822-1c35b9e54638?auto=format&fit=crop&w=800&q=80" alt="Stylish Dress">
+      <div class="card-body">
+        <h3>Stylish Dress</h3>
+        <p>₦22,000</p>
+        <button class="btn" onclick="addToCart('Stylish Dress',22000)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1618354699861-d0a0fbb5bb33?auto=format&fit=crop&w=800&q=80" alt="Silk Shirt">
+      <div class="card-body">
+        <h3>Silk Shirt</h3>
+        <p>₦12,500</p>
+        <button class="btn" onclick="addToCart('Silk Shirt',12500)">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <h2 class="section-title">About Us</h2>
+  <p class="about">Demian Stores offers premium clothing styles for men and women. Our goal is to provide quality, style, and comfort in every piece.</p>
+</section>
+
+<section id="contact">
+  <h2 class="section-title">Contact Us</h2>
+  <form onsubmit="return sendMail()">
+    <input id="name" required placeholder="Full Name">
+    <input id="email" type="email" required placeholder="Email">
+    <textarea id="address" required placeholder="Delivery Address"></textarea>
+    <textarea id="message" placeholder="Your message or request"></textarea>
+    <button class="btn" type="submit">Send Message</button>
+  </form>
+</section>
+
+<footer>
+  © Demian Stores | Email: <a href="mailto:mbanefochinemerum@gmail.com">mbanefochinemerum@gmail.com</a>
+</footer>
+
+<script>
+  const cart=[];
+  function addToCart(name,price){const existing=cart.find(i=>i.name===name);if(existing)existing.qty++;else cart.push({name,price,qty:1});updateCart();}
+  function updateCart(){const count=cart.reduce((a,c)=>a+c.qty,0);document.getElementById('cartCount').textContent=count;const itemsDiv=document.getElementById('cartItems');if(cart.length===0){itemsDiv.textContent='No items yet';document.getElementById('cartTotal').textContent='';return;}itemsDiv.innerHTML=cart.map(i=>`<div>${i.name} × ${i.qty} — ₦${i.price*i.qty}</div>`).join('');const total=cart.reduce((a,c)=>a+c.price*c.qty,0);document.getElementById('cartTotal').textContent='Total: ₦'+total.toLocaleString();}
+  function toggleCart(){const modal=document.getElementById('cartModal');modal.style.display=modal.style.display==='block'?'none':'block';}
+  function checkout(){if(cart.length===0){alert('Your cart is empty');return;}let body='Order Details:%0D%0A';cart.forEach(i=>body+=`${i.name} × ${i.qty} — ₦${i.price*i.qty}%0D%0A`);const total=cart.reduce((a,c)=>a+c.price*c.qty,0);body+=`%0D%0ATotal: ₦${total}%0D%0A%0D%0APlease include delivery info below:%0D%0AName:%0D%0AAddress:%0D%0APhone:`;window.location.href=`mailto:mbanefochinemerum@gmail.com?subject=New Order from Demian Stores&body=${body}`;}
+  function sendMail(){const name=document.getElementById('name').value.trim();const email=document.getElementById('email').value.trim();const address=document.getElementById('address').value.trim();const msg=document.getElementById('message').value.trim();if(!name||!email||!address){alert('Please fill in all required fields');return false;}const body=encodeURIComponent(`From: ${name} (${email}\nAddress: ${address}\n\n${msg}`);window.location.href=`mailto:mbanefochinemerum@gmail.com?subject=Customer Enquiry&body=${body}`;return false;}
+</script>
+
+</body>
+</html>
